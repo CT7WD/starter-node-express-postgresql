@@ -9,7 +9,9 @@ function list() {
 // SELECT all cols from PRODUCTS table where product_id col matches passed in arg.
 // first() returns first row in table.
 function read(productId) {
-  return knex("products").select("*").where({ product_id: productId }).first()
+  return knex("products").select("*")
+          .where({ product_id: productId })
+          .first()
 }
 
 

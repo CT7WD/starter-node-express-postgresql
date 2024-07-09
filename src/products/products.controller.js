@@ -1,11 +1,16 @@
+// Require service object and assign to variable name.
 const productsService = require("./products.service");
-
+// Methods  on the service object can now be accessed.
 
 function list(req, res, next) {
   productsService
     .list()
+      // ^list method on service object accessed.
     .then((data) => res.json({ data }))
+      // ^ 'then' is chained to execute Knex query.
     .catch(next);
+      // ^ 'next' is called.  If not present, errors will not be handled
+  // correctly.
 }
 
 // Middleware to validate whether product exists or not based on ID.
