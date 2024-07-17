@@ -56,10 +56,29 @@ function read(req, res) {
   res.json({ data });
 }
 
+// LIST OUT OF STOCK HANDLER
+async function listOutOfStockCount(req, res, next) {
+  res.json({ data: await productsService.listOutOfStockCount() });
+}
+
+// LIST PRICE SUMMARY
+async function listPriceSummary(req, res, next) {
+  res.json({ data: await productsService.listPriceSummary() });
+}
+
+// LIST TOTAL WEIGH BY PRODUCT
+async function listTotalWeightByProduct(req, res) {
+  res.json({ data: await productsService.listTotalWeightByProduct() });
+}
+
+
 module.exports = {
   read: [
     asyncErrorBoundary(productExists),
     read
   ],
   list: asyncErrorBoundary(list),
+  listOutOfStockCount: asyncErrorBoundary(listOutOfStockCount),
+  listPriceSummary: asyncErrorBoundary(listPriceSummary),
+  listTotalWeightByProduct: asyncErrorBoundary(listTotalWeightByProduct),
 }
