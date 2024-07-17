@@ -2,23 +2,34 @@
 const productsService = require("./products.service");
 // Methods  on the service object can now be accessed.
 
-function list(req, res, next) {
-  productsService
+async function list(req, res, next) {
+  const data = await productsService.list();
+  res.json({ data });
+
+  /*productsService
     .list()
       // ^list method on service object accessed.
     .then((data) => res.json({ data }))
       // ^ 'then' is chained to execute Knex query.
     .catch(next);
       // ^ 'next' is called.  If not present, errors will not be handled
-  // correctly.
+  // correctly.*/
 }
 
 // Middleware to validate whether product exists or not based on ID.
 // Create function named "productExists" that has access to
 // request, response, & next middleware function in apps 
 // request-response cycle.
-function productExists(req, res, next) {
-  productsService
+async function productExists(req, res, next) {
+  const product = await productsService.read(req.params.productId);
+  if (product) {
+    res.locals.product = product;
+    return next();
+  }
+  next({ status: 404,
+          message: `Product cannot be found.`
+  })
+ /* productsService
   // ^ object that 'read' is being called on.
   // 'read' is a method of this object to retrieves a product
   // based on ID.
@@ -35,7 +46,7 @@ function productExists(req, res, next) {
     }
     next({ status: 404, message: `Product cannot be found.` });
   })
-  .catch(next);
+  .catch(next);*/
 }
 
 // READ

@@ -6,8 +6,8 @@ router.route("/").post(controller.create).all(methodNotAllowed);
 
 router
   .route("/:supplierId")
-  // .put(controller.update)
-  // .delete(controller.delete)
+  .put(controller.update)
+  .delete(controller.delete)
   .all(methodNotAllowed);
 
 module.exports = router;
