@@ -4,14 +4,17 @@ const knex = require("../db/connection");
 function list() {
   return knex("products").select("*");
 }
-
+// READ QUERY BUILDER
 // GET a specific product, based on its ID
 // SELECT all cols from PRODUCTS table where product_id col matches passed in arg.
 // first() returns first row in table.
-function read(productId) {
-  return knex("products").select("*")
-          .where({ product_id: productId })
-          .first()
+function read(product_id) {
+  return knex("products as p")
+    .join("products_categories as pc", "p.product_id", "pc.product_id")
+    .join("categories as c", "pc.category_id", "c.category_id")
+    .select("p.*", "c.*")
+    .where({ "p.product_id": product_id })
+    .first();
 }
 
 //  PRODUCT OUT OF STOCK QUERY BUILDER
