@@ -1,6 +1,7 @@
 // Require service object and assign to variable name.
 const productsService = require("./products.service");
 // Methods  on the service object can now be accessed.
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 async function list(req, res, next) {
   const data = await productsService.list();
@@ -57,8 +58,8 @@ function read(req, res) {
 
 module.exports = {
   read: [
-    productExists,
+    asyncErrorBoundary(productExists),
     read
   ],
-  list,
+  list: asyncErrorBoundary(list),
 }
